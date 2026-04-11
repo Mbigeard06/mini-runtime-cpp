@@ -5,6 +5,7 @@ project(mini_lambda_runtime VERSION 0.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)  # lets clangd resolve includes
 
 # ── Compiler hardening ─────────────────────────────────────────────────────────
 if(MSVC)
@@ -48,6 +49,13 @@ if(BUILD_TESTS)
   # Prevent overriding the parent project's compiler/linker settings on Windows
   set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
   FetchContent_MakeAvailable(googletest)
+  # GoogleTest's own headers trigger -Wdouble-promotion. Suppress for
+  # third-party targets only — our code still gets the full warning set.
+  foreach(_t gtest gtest_main gmock gmock_main)
+    target_compile_options(${_t} PRIVATE
+      -Wno-double-promotion -Wno-conversion -Wno-sign-conversion
+    )
+  endforeach()
   enable_testing()
 endif()
 
@@ -65,3 +73,4 @@ endif()
 if(BUILD_MOCK)
   add_subdirectory(mock)
 endif()
+

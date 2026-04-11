@@ -1,41 +1,52 @@
-# Prerequisites
-*.d
+# Build directories
+build/
+out/
+cmake-build-*/
 
-# Compiled Object files
-*.slo
-*.lo
+# CMake generated
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+install_manifest.txt
+CTestTestfile.cmake
+_deps/
+
+# Compile commands (symlink at root is fine, but not the build copy)
+compile_commands.json
+
+# Compiled object files
 *.o
 *.obj
+*.slo
+*.lo
 
-# Precompiled Headers
+# Precompiled headers
 *.gch
 *.pch
 
-# Linker files
-*.ilk
-
-# Debugger Files
-*.pdb
-
-# Compiled Dynamic libraries
+# Static and dynamic libraries
+*.a
+*.lib
 *.so
 *.dylib
 *.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
 *.lai
 *.la
-*.a
-*.lib
 
 # Executables
 *.exe
 *.out
 *.app
 
-# debug information files
+# Debugger and dependency files
+*.d
 *.dwo
+*.ilk
+*.pdb
+
+# Fortran (kept from original, harmless)
+*.mod
+*.smod
+
+# macOS
+.DS_Store
