@@ -6,23 +6,16 @@
 
 namespace lambda_runtime {
 
-// ── ErrorInfo
-// ────────────────────────────────────────────────────────────────── Carries a
-// structured error across all Outcome types.
+// Structured error carried by all failed Outcomes.
 struct ErrorInfo {
   std::string error_type;
   std::string error_message;
 };
 
-// ── Outcome<T>
-// ───────────────────────────────────────────────────────────────── A
-// discriminated union of a success value T or an ErrorInfo. Callers MUST check
-// is_success() / is_failure() before accessing value() / error().
-// [[nodiscard]] forces every call-site to handle the result.
+// Either a success value T or an ErrorInfo. Check is_success() before access.
 template <typename T> class [[nodiscard]] Outcome {
 public:
   [[nodiscard]] static Outcome success(T value) {
-    // variant constructor: slot selector, value to put
     return Outcome{std::in_place_index<0>, std::move(value)};
   }
 
@@ -67,9 +60,7 @@ private:
   std::variant<T, ErrorInfo> data_;
 };
 
-// ── Outcome<void> specialisation
-// ─────────────────────────────────────────────── Used for operations that
-// either succeed (no value) or fail with an ErrorInfo.
+// Outcome<void> — for operations that succeed with no value or fail with an error.
 template <> class [[nodiscard]] Outcome<void> {
 public:
   [[nodiscard]] static Outcome success() noexcept {

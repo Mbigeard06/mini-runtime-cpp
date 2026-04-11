@@ -7,7 +7,6 @@
 
 namespace lambda_runtime {
 
-// ── Invocation
 // snapshot of one Lambda invocation request.
 class Invocation {
 public:
